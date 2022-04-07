@@ -4,7 +4,6 @@ import type_class_intro._
 import type_class_intro.using_type_param.ByteEncoder.instance
 
 import java.nio.ByteBuffer
-import java.util
 
 trait ByteEncoder[A] {
   def encode(a: A): Array[Byte]
