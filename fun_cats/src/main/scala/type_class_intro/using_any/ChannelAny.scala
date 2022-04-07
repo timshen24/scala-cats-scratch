@@ -1,8 +1,8 @@
-package type_class_intro
+package type_class_intro.using_any
 
-import java.io.FileOutputStream
+import type_class_intro._
+
 import java.nio.ByteBuffer
-import scala.util.Using
 
 trait Channel {
   def write(obj: Any): Unit
@@ -15,10 +15,7 @@ object FileChannel extends Channel {
       case s: String => s.getBytes
       case _ => throw new Exception("unhandled")
     }
-
-    Using(new FileOutputStream("test_channel.txt")) {
-      os => os.write(bytes); os.flush()
-    }
+    writeToFile(bytes)
   }
 }
 
