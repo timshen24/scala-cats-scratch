@@ -9,7 +9,7 @@ import org.typelevel.discipline.Laws
 trait EqTests[A] extends Laws {
   def laws: EqLaws[A]
 
-  // TODO #14: Define a RuleSet containing the laws in EqLaws
+  // #14: Define a RuleSet containing the laws in EqLaws
   def eq(implicit arb: Arbitrary[A]): RuleSet = new DefaultRuleSet(
     name = "eq",
     parent = None,
@@ -19,7 +19,7 @@ trait EqTests[A] extends Laws {
   )
 }
 
-// TODO #15: Define a companion object with an 'apply' method so that we can
+// #15: Define a companion object with an 'apply' method so that we can
 //           easily instatiate tests with e.g. EqTests[Int]
 object EqTests {
   def apply[A](implicit eqA: Eq[A]): EqTests[A] = new EqTests[A] {
