@@ -34,3 +34,16 @@ list.combineAll
 Monoid.isEmpty(Speed(100)) // because I have implicit value eqSpeed
 Monoid.isEmpty(Speed(0))
 
+val sumMonoid: Monoid[Int] = Monoid.instance(0, _ + _)
+val minMonoid: Monoid[Int] = Monoid.instance(Int.MaxValue, _ min _)
+def listMonoid[A]: Monoid[List[A]] = Monoid.instance(Nil, _ ++ _)
+val stringMonoid: Monoid[String] = new Monoid[String] {
+  override def empty = ""
+
+  override def combine(x: String, y: String) = x + y
+}
+
+sumMonoid.combine(3, 4)
+minMonoid.combine(6, 2)
+listMonoid[Boolean].combine(List(true, false), List(false, true))
+stringMonoid.combine("hello", "world")
