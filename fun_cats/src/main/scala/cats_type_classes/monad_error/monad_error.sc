@@ -42,6 +42,18 @@ executeRequestME[Try](HttpRequest(GET, "www.example.com"))
 type ErrorOr[A] = Either[Throwable, A]
 executeRequestME[ErrorOr](HttpRequest(GET, "www.example.com"))
 
+def executeRequestME[F[_]: MonadThrow](req: HttpRequest)/*(implicit ME: MonadError[F, E])*/: F[HttpResponse] =
+  try {
+    implicitly[MonadThrow[F]].pure(doRequest(req))
+  } catch {
+    case e: Exception => implicitly[MonadThrow[F]].raiseError(e)/*.raiseError(f(e))*/
+  }
+
+//executeRequestME[Option, Unit](HttpRequest(GET, "www.eexample.com"))
+executeRequestME[ErrorOr](HttpRequest(GET, "www.eexample.com"))
+
+MonadError[ErrorOr, Throwable].ensure(Right(6))(throw new Exception("Oh noes"))(_ % 2 == 0)
+
 def executeRequestME[F[_], E](req: HttpRequest)(f: Exception => E)(implicit ME: MonadError[F, E]): F[HttpResponse] =
   try {
     ME.pure(doRequest(req))
@@ -51,5 +63,3 @@ def executeRequestME[F[_], E](req: HttpRequest)(f: Exception => E)(implicit ME: 
 
 executeRequestME[Option, Unit](HttpRequest(GET, "www.eexample.com"))((_: Exception) => ())
 executeRequestME[ErrorOr, Throwable](HttpRequest(GET, "www.eexample.com"))(_)
-
-MonadError[ErrorOr, Throwable].ensure(Right(6))(throw new Exception("Oh noes"))(_ % 2 == 0)
