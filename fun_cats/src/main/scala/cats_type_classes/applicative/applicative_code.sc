@@ -41,3 +41,34 @@ val v1: Validated[Int] = Applicative[Validated].pure(1)
 val v2: Validated[Int] = Applicative[Validated].pure(2)
 val v3: Validated[Int] = Applicative[Validated].pure(3)
 (v1, v2, v3).mapN(_ + _ + _)
+
+val optionApplicative: Applicative[Option] = new Applicative[Option] {
+  override def pure[A](a: A): Option[A] = Option(a)
+
+  override def ap[A, B](ff: Option[A => B])(fa: Option[A]): Option[B] =
+    (ff, fa) match {
+      case (Some(f), Some(a)) => Some(f(a))
+      case _ => None
+    }
+}
+
+val o1 = optionApplicative.pure(1)
+val o2 = optionApplicative.pure(null)
+(o1, o2).mapN(_ + _)
+
+val listApplicative: Applicative[List] = new Applicative[List] {
+  override def pure[A](a: A): List[A] = List(a)
+
+  override def ap[A, B](ff: List[A => B])(fa: List[A]): List[B] =
+    (ff, fa) match {
+      case (f :: fs, a :: as) => (a :: as).fmap(f) ++ ap(fs)(a :: as)
+      case _ => Nil
+    }
+}
+
+val l1 = listApplicative.pure(List[Int](1, 2, 3))
+val l2 = listApplicative.pure(List[Int](4, 5))
+//listApplicative.map2(List(1, 2, 3), List(4, 5))(_ + _)
+//listApplicative.map2[Int, Int, Int](List(1, 2, 3), List())(_ + _)
+
+//(l1, l2).mapN(_ + _)(listApplicative)
