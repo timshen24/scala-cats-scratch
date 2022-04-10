@@ -16,6 +16,8 @@ object Account {
     // provide an instances of Order[Account] that orders by balance
     implicit def orderByBalance(implicit orderDouble: Order[Double]): Order[Account] =
       Order.by(_.balance)
+
+    implicit val orderByMultiple: Order[Account] = Order.by(acc => (acc.id, acc.number, acc.owner))
   }
 }
 
@@ -31,3 +33,4 @@ account1 min account2
 
 implicit val orderByIdDesc: Order[Account] = Order.reverse(Account.orderById)
 sort[Account](List(account1, account2))
+
