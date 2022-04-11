@@ -49,7 +49,6 @@ def executeRequestME[F[_]: MonadThrow](req: HttpRequest)/*(implicit ME: MonadErr
     case e: Exception => implicitly[MonadThrow[F]].raiseError(e)/*.raiseError(f(e))*/
   }
 
-//executeRequestME[Option, Unit](HttpRequest(GET, "www.eexample.com"))
 executeRequestME[ErrorOr](HttpRequest(GET, "www.eexample.com"))
 
 MonadError[ErrorOr, Throwable].ensure(Right(6))(throw new Exception("Oh noes"))(_ % 2 == 0)
