@@ -68,3 +68,6 @@ MList(1, 2, 3).foldMap(_.show)
 MList(1, 2, 3).foldMap(_ * 2)
 MList(1, 2, 3).fold
 MList("hello", "world").fold
+
+def find[F[_]: Foldable, A](fa: F[A])(p: A => Boolean): Option[A] =
+  fa.foldLeft(None: Option[A])((b, a) => if (p(a)) Some(a) else b)
