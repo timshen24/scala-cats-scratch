@@ -71,3 +71,18 @@ MList("hello", "world").fold
 
 def find[F[_]: Foldable, A](fa: F[A])(p: A => Boolean): Option[A] =
   fa.foldLeft[Option[A]](None)((b, a) => if (p(a)) Some(a) else b)
+
+find[MList, Int](MList(1, 2, 3))(i => i % 2 == 0)
+
+def exists[F[_]: Foldable, A](fa: F[A])(p: A => Boolean): Boolean = {
+//  find(fa)(p).nonEmpty
+  fa.foldLeft[Boolean](false)((b, a) => b || p(a))
+}
+
+exists[MList, Int](MList(1, 2, 3))(i => i % 5 == 0)
+
+def toList[F[_]: Foldable, A](fa: F[A]): MList[A] = {
+  fa.foldRight[MList[A]](Eval.now(MNil))((a, b) => Eval.now(MCons(a, b.value))).value
+}
+
+toList[MList, Int](MList(1, 2, 3, 4))
