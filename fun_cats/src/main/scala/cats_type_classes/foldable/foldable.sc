@@ -86,3 +86,9 @@ def toList[F[_]: Foldable, A](fa: F[A]): MList[A] = {
 }
 
 toList[MList, Int](MList(1, 2, 3, 4))
+
+def forall[F[_]: Foldable, A](fa: F[A])(p: A => Boolean): Boolean =
+  fa.foldLeft[Boolean](true)((b, a) => b && p(a))
+
+forall[MList, Int](MList(1, 2, 3))(_ > 1)
+forall[MList, Int](MList(1, 2, 3))(_ >= 1)

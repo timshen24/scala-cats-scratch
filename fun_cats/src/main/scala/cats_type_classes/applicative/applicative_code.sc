@@ -68,7 +68,9 @@ val listApplicative: Applicative[List] = new Applicative[List] {
 
 val l1 = listApplicative.pure(List[Int](1, 2, 3))
 val l2 = listApplicative.pure(List[Int](4, 5))
-//listApplicative.map2(List(1, 2, 3), List(4, 5))(_ + _)
-//listApplicative.map2[Int, Int, Int](List(1, 2, 3), List())(_ + _)
+listApplicative.map2(List(1, 2, 3), List(4, 5))(_ + _)
+listApplicative.map2[Int, Int, Int](List(1, 2, 3), List())(_ + _)
 
-//(l1, l2).mapN(_ + _)(listApplicative)
+val l3 = List(1, 2, 3)
+val l4 = List(4, 5)
+(l3, l4).mapN(_ + _)
