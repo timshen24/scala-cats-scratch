@@ -56,3 +56,27 @@ object MList {
 Traverse[MList].sequence(MList(Option(5), Option(4)))
 Traverse[MList].sequence(MList(Option(5), None))
 Traverse[MList].traverse(MList(1, 2, 3))(i => Option(i + 1))
+
+val optionTraverse: Traverse[Option] = new Traverse[Option] {
+  override def traverse[G[_]: Applicative, A, B](fa: Option[A])(f: A => G[B]): G[Option[B]] =
+    fa match {
+      case Some(value) => f(value).map(Some(_))
+      case None => Applicative[G].pure(None)
+    }
+
+  override def foldLeft[A, B](fa: Option[A], b: B)(f: (B, A) => B): B =
+    fa match {
+      case Some(a) => f(b, a)
+      case None => b
+    }
+
+  override def foldRight[A, B](fa: Option[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
+    fa match {
+      case Some(a) => f(a, lb)
+      case None => lb
+    }
+}
+
+optionTraverse.traverse(Some(5))(x => List(x + 1, x + 2))
+optionTraverse.traverse(Some(5))(_ => List())
+optionTraverse.traverse[List, Int, Int](None)(x => List(x + 1, x + 2))
