@@ -70,4 +70,4 @@ MList(1, 2, 3).fold
 MList("hello", "world").fold
 
 def find[F[_]: Foldable, A](fa: F[A])(p: A => Boolean): Option[A] =
-  fa.foldLeft(None: Option[A])((b, a) => if (p(a)) Some(a) else b)
+  fa.foldLeft[Option[A]](None)((b, a) => if (p(a)) Some(a) else b)
