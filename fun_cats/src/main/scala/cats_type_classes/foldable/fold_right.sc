@@ -37,4 +37,4 @@ def length[A](list: MList[A]): Int =
   foldRight(list)(0)((_, y) => 1 + y)
 
 def filterPositive(ints: MList[Int]): MList[Int] =
-  foldRight(ints)(MNil)((x: Int, y: MList[Int]) => if (x > 0) MCons(x, y) else y)
+  foldRight(ints)(MNil: MList[Int])((x: Int, y: MList[Int]) => if (x > 0) MCons(x, y) else y)
