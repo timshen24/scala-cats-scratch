@@ -22,6 +22,7 @@ lazy val baseSettings: Seq[Setting[_]] = Seq(
   addCompilerPlugin(kindProjector),
   libraryDependencies ++= Seq(
     "org.typelevel" %% "cats-core" % "2.7.0",
+    "org.typelevel" %% "cats-laws" % "2.7.0",
     "org.typelevel" %% "discipline-core" % "1.4.0" % Test,
     "org.typelevel" %% "discipline-scalatest" % "2.1.5" % Test,
     "org.scalatest" %% "scalatest" % "3.2.11" % Test
