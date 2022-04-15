@@ -1,6 +1,4 @@
 import cats.data._
-import cats._
-import cats.implicits._
 
 val signReader: Reader[Int, String] // Int => String
  = Reader(n => if (n > 0) "positive" else if (n < 0) "negative" else "zero")
