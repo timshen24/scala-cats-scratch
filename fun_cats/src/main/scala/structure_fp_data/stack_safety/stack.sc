@@ -1,3 +1,6 @@
+import scala.annotation.tailrec
+
+@tailrec
 def fact(n: Int, acc: Int = 1): Int = {
   if (n == 0) {
     acc
