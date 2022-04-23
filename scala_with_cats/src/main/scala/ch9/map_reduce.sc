@@ -21,3 +21,12 @@ def parallelFoldMap[A, B: Monoid](vector: Vector[A])(f: A => B): Future[B] = {
 
 val f = parallelFoldMap((1 to 1000000).toVector)(identity)
 Await.result(f, 1.second)
+
+def parallelFoldMap2[A, B: Monoid](vector: Vector[A])(f: A => B): Future[B] = {
+  val numCores = Runtime.getRuntime.availableProcessors()
+  val groupSize = ((vector.size * 1.0) / numCores).ceil.toInt
+  vector.grouped(groupSize).toVector.traverse(group => Future(group.foldMap(f))).map(_.combineAll)
+}
+
+val f = parallelFoldMap2((1 to 1000000).toVector)(identity)
+Await.result(f, 1.second)
