@@ -25,6 +25,8 @@ Await.result(f, 1.second)
 def parallelFoldMap2[A, B: Monoid](vector: Vector[A])(f: A => B): Future[B] = {
   val numCores = Runtime.getRuntime.availableProcessors()
   val groupSize = ((vector.size * 1.0) / numCores).ceil.toInt
+
+  // Vector[Vector[A]]--->traverse(Vector[A]====foldMap===>Future[B])--->Future[Vector[B]]--->combineAll--->Future[B]
   vector.grouped(groupSize).toVector.traverse(group => Future(group.foldMap(f))).map(_.combineAll)
 }
 
