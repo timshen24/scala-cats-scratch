@@ -43,3 +43,5 @@ Validated.condNec(test = false, 5, "error")
 
 Validated.fromEither[NonEmptyChain[String], Int](Right(5))
 Validated.fromEither[NonEmptyChain[String], Int](Left(NonEmptyChain("error")))
+
+("error1".invalidNec[Int], "error2".invalidNec[Int]).mapN((_, _) => 2)
