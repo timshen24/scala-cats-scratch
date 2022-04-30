@@ -9,7 +9,7 @@ import scala.util.Try
 type ErrorOr[A] = Either[String, A]
 val monadError: MonadError[ErrorOr, String] = MonadError[ErrorOr, String]
 
-//42.pure[MonadThrow]
+42.pure[ErrorOr]
 val success = monadError.pure(42)
 val failure = monadError.raiseError("Badness")
 
