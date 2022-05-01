@@ -37,11 +37,11 @@ import cats.syntax.applicative._
 import cats.syntax.apply._
 
 def listTraverse[F[_]: Applicative, A, B](list: List[A])(func: A => F[B]): F[List[B]] =
-  list.foldLeft(List.empty[B].pure[F]) {
-    (accum, item) => (accum, func(item)).mapN(_ :+ _)
+  list.foldRight(List.empty[B].pure[F]) {
+    (a, acc) => (func(a), acc).mapN(_ :: _)
   }
 
-def listSequence[F[_]: Applicative, B](list: List[F[B]]): F[List[B]] =
+def listSequence[F[_]: Applicative, A](list: List[F[A]]): F[List[A]] =
   listTraverse(list)(identity)
 
 val totalUptime = listTraverse(hostnames)(getUptime)
