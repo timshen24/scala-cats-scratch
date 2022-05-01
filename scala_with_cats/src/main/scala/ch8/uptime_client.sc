@@ -24,7 +24,7 @@ class UptimeService[F[_]: Applicative](client: UptimeClient[F]) {
 }
 
 val client   = new TestUptimeClient(hosts)
-val service  = new UptimeService(client)
+val service  = new UptimeService(client) // Id as context, that is to say F = Id
 val actual   = service.getTotalUptime(hosts.keys.toList)
 val expected = hosts.values.sum
 assert(actual == expected)
