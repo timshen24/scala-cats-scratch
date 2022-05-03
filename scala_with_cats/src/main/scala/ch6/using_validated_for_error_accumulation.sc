@@ -106,8 +106,15 @@ def validateNameWithProduct(name: String): AllErrorsOr[Name] = {
   (validateNonEmptyName(name) productR validateStartsWithUpper(name)).map(Name)
 }
 
-(validateNameWithProduct("Benjamin Sisko"), validateAge("50"), validateEmail("b.sisko@dsn.st")).mapN(Person)
-(validateNameWithProduct("odo"), validateAge("200"), validateEmail("odo.founder.net")).mapN(Person)
+(validateNameWithProduct("Benjamin Sisko"),
+  validateAge("50"),
+  validateEmail("b.sisko@dsn.st")
+  ).mapN(Person)
+
+(validateNameWithProduct("odo"),
+  validateAge("200"),
+  validateEmail("odo.founder.net")
+  ).mapN(Person)
 
 //captures all errors if there are any errors
 validateNonEmptyName("") combine validateStartsWithUpper("joe")
