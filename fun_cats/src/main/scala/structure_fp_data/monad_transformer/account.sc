@@ -18,4 +18,4 @@ def depositMoney(accountId: Long, amount: Double): AccountOp[Account] = {
     case Right(account) => saveAccount(account.updateBalance(_ + amount))
   }
 }
-// How to avoid nest flatMap?
+// How to avoid nest flatMap? That I can operate on Account directly?
