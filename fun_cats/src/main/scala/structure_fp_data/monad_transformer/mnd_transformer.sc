@@ -24,6 +24,7 @@ val mapF = 5.pure[AccountOp].mapF {
 }
 mapF.run(dummyRepo)
 
+// Apply method for Kleisli
 ReaderT((_: AccountRepo)=> 5.asRight[String]).run(dummyRepo)
 ReaderT((_: AccountRepo)=> "hello".asLeft[Int]).run(dummyRepo)
 
@@ -34,6 +35,8 @@ ReaderT((_: AccountRepo) => "hello".asLeft[Int]).map(_ + 1).run(dummyRepo)
 ReaderT((_: AccountRepo) => "hello".asLeft[Int])
   .flatMap(i => (i + 1).pure[AccountOp])
   .run(dummyRepo)
+
+
 
 // begin OptionT
 type ErrorOrOpt[A] = OptionT[ErrorOr, A] // this is just ErrorOr[Option[A]]
