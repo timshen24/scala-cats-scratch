@@ -2,11 +2,6 @@ import cats._
 import cats.data._
 import cats.implicits._
 
-//case class Account (id: Long, balance: Double) {
-//  def updateBalance(f: Double => Double): Account =
-//    copy(balance = f(balance))
-//}
-
 trait AccountRepo
 type ErrorOr[A] = Either[String, A]
 // ReaderT is just Kleisli
@@ -21,11 +16,13 @@ ReaderT.liftF[ErrorOr, AccountRepo, Int]("hello".asLeft[Int]).run(dummyRepo)
 // B -> ReaderT[ErrorOr, A, B]
 5.pure[AccountOp].run(dummyRepo)
 
-// ReaderT[ErrorOr, A, B] -> ReaderT[Option, A, B]
-5.pure[AccountOp].mapF {
+// ReaderT[ErrorOr, AccountOp, B] -> ReaderT[Option, AccountOp, B]
+// change context of Kleisli
+val mapF = 5.pure[AccountOp].mapF {
   case Left(_) => None
   case Right(value) => Some(value)
-}.run(dummyRepo)
+}
+mapF.run(dummyRepo)
 
 ReaderT((_: AccountRepo)=> 5.asRight[String]).run(dummyRepo)
 ReaderT((_: AccountRepo)=> "hello".asLeft[Int]).run(dummyRepo)
