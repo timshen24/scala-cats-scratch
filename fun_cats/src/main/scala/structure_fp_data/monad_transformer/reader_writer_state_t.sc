@@ -71,3 +71,11 @@ val result = for {
 val (logs, newState, _) = result
   .run(Environment(MyHttpClient(), getConfig), Cache(Map.empty))
   .unsafeRunSync()
+
+
+/**
+ * ReaderWriterStateT.tell——Add a value to the log, without modifying the input state.
+ * ReaderWriterStateT.ask——Get the provided environment, without modifying the input state.
+ * ReaderWriterStateT.get——Return the input state without modifying it.
+ * ReaderWriterStateT.set——Set the state.
+ */
