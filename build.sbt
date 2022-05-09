@@ -24,6 +24,7 @@ lazy val baseSettings: Seq[Setting[_]] = Seq(
     "org.typelevel" %% "cats-core" % "2.7.0",
     "org.typelevel" %% "cats-laws" % "2.7.0",
     "org.typelevel" %% "cats-effect" % "3.3.11",
+    "org.typelevel" %% "cats-mtl" % "1.2.1",
     "org.typelevel" %% "discipline-core" % "1.4.0" % Test,
     "org.typelevel" %% "discipline-scalatest" % "2.1.5" % Test,
     "org.scalatest" %% "scalatest" % "3.2.11" % Test
@@ -39,4 +40,7 @@ lazy val fun_cats = project
   .settings(baseSettings: _*)
 
 lazy val scala_with_cats = project
+  .settings(baseSettings: _*)
+
+lazy val cats_mtl_scratch = project
   .settings(baseSettings: _*)
