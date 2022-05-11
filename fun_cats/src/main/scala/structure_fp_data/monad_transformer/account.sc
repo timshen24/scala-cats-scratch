@@ -2,7 +2,7 @@ import cats._
 import cats.data._
 import cats.implicits._
 
-case class Account (id: Long, balance: Double) {
+case class Account(id: Long, balance: Double) {
   def updateBalance(f: Double => Double): Account =
     copy(balance = f(balance))
 }

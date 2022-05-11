@@ -7,7 +7,6 @@ import cats.effect._
 type Config = String
 type Result = String
 
-
 def getConfig: IO[Config] = ???
 // getConfig: cats.effect.IO[Config]
 

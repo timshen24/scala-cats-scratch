@@ -7,7 +7,7 @@ type ErrorOr[A] = Either[String, A]
 type AccountOp[A] = ReaderT[ErrorOr, AccountRepo, A]
 
 // begin OptionT
-type ErrorOrOpt[A] = OptionT[ErrorOr, A] // this is just ErrorOr[Option[A]]
+type ErrorOrOpt[A] = OptionT[ErrorOr, A] // this is just ErrorOr[Option[A]], namely Either[String, Option[A]]
 type AccountOp2[A] = ReaderT[ErrorOrOpt, AccountRepo, A]
 
 val dummyRepo: AccountRepo = new AccountRepo {}
@@ -15,8 +15,10 @@ val dummyRepo: AccountRepo = new AccountRepo {}
 5.pure[AccountOp2].run(dummyRepo) // AccountRepo => Either[String, Option[A]]
 5.pure[AccountOp2].flatMap(n => (n + 1).pure[AccountOp2]).run(dummyRepo)
 5.pure[ErrorOrOpt].flatMap(n => (n + 1).pure[ErrorOrOpt])
-Option(5).asRight[String] // ErrorOr[Int]
+Option(5).asRight[String] // Either[String,Option[Int]]
 OptionT(Option(5).asRight[String]) // OptionT[ErrorOr, Int]
+
+// operate on OptionT
 OptionT(Option.empty[Int].asRight[String]).flatMap(n => (n + 1).pure[ErrorOrOpt])
 "boom".asLeft[Option[Int]].flatMap(n => Right(n.map(_ + 1)))
 OptionT("boom".asLeft[Option[Int]]).flatMap(n => (n + 1).pure[ErrorOrOpt])
@@ -31,4 +33,5 @@ OptionT(Option(5).asRight[String]).semiflatMap(n => Right(n + 1))
 OptionT("boom".asLeft[Option[Int]]).semiflatMap(n => Right(n + 1))
 OptionT(Option.empty[Int].asRight[String]).semiflatMap(n => Right(n + 1))
 
+// operate on Either[Option[A]]
 OptionT(Option(5).asRight[String]).flatMapF(n => Right(Some(n + 1)))
