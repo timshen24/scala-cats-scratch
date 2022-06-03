@@ -44,3 +44,6 @@ lazy val scala_with_cats = project
 
 lazy val cats_mtl_scratch = project
   .settings(baseSettings: _*)
+
+lazy val cats_effect_scratch = project
+  .settings(baseSettings: _*)
