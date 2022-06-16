@@ -92,3 +92,5 @@ def forall[F[_]: Foldable, A](fa: F[A])(p: A => Boolean): Boolean =
 
 forall[MList, Int](MList(1, 2, 3))(_ > 1)
 forall[MList, Int](MList(1, 2, 3))(_ >= 1)
+
+List(1, 2, 3, 4).foldLeft(List[Int]())((acc, v) => v :: acc)
